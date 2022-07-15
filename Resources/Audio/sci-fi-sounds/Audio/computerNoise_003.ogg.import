@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/computerNoise_003.ogg-a96822090162b6ec749fb344618e4c3b.oggstr"
+
+[deps]
+
+source_file="res://Resources/Audio/sci-fi-sounds/Audio/computerNoise_003.ogg"
+dest_files=[ "res://.import/computerNoise_003.ogg-a96822090162b6ec749fb344618e4c3b.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

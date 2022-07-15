@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/cardSlide3.ogg-72e7e0f4f37499ff773dac6c54aa4205.oggstr"
+
+[deps]
+
+source_file="res://Resources/Sprites/boardgamepack/Bonus/cardSlide3.ogg"
+dest_files=[ "res://.import/cardSlide3.ogg-72e7e0f4f37499ff773dac6c54aa4205.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

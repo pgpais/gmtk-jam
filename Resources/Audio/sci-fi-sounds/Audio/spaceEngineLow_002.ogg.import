@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/spaceEngineLow_002.ogg-fbde93184ed63b675fd3dcaac105fda4.oggstr"
+
+[deps]
+
+source_file="res://Resources/Audio/sci-fi-sounds/Audio/spaceEngineLow_002.ogg"
+dest_files=[ "res://.import/spaceEngineLow_002.ogg-fbde93184ed63b675fd3dcaac105fda4.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0
