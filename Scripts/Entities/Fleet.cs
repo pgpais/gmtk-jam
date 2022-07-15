@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Entities;
 using Godot;
 
 public class Fleet : Node2D
@@ -7,10 +8,12 @@ public class Fleet : Node2D
     /// Value in die. How many ships are in the fleet.
     /// </summary>
     [Export(PropertyHint.Range, "1,6,1")]
-    public int ShipsInFleet { get; private set; }
+    public int ShipsInFleet { get; private set; } = 1;
 
     [Export]
-    public List<NodePath> DieSpritesPath { get; private set; }
+    private readonly List<NodePath> DieSpritesPath;
+
+    public Planet StationedPlanet { get; private set; }
 
     readonly List<Sprite> dieSprites = new List<Sprite>();
 
@@ -25,5 +28,10 @@ public class Fleet : Node2D
         }
 
         dieSprites[ShipsInFleet - 1].Visible = true;
+    }
+
+    public void SetStationedPlanet(Planet planet)
+    {
+        StationedPlanet = planet;
     }
 }
