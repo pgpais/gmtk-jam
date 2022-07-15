@@ -1,11 +1,14 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Resources/Sprites/kenney_simplespace/PNG/Retina/meteor_detailedLarge.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/Entities/Planet.cs" type="Script" id=2]
+[ext_resource path="res://Resources/Fonts/Font Files/KenneyFutureNarrow-36.tres" type="DynamicFont" id=3]
 
 [node name="Planet" type="Node2D"]
-position = Vector2( 9, -121 )
 script = ExtResource( 2 )
+PlanetGoal = 6
+FleetPositionPaths = [ NodePath("Ship Position 1"), NodePath("Ship Position 2"), NodePath("Ship Position 3") ]
+PlanetGoalLabelPath = NodePath("PlanetGoal")
 
 [node name="MeteorDetailedLarge" type="Sprite" parent="."]
 texture = ExtResource( 1 )
@@ -18,3 +21,11 @@ position = Vector2( -75, 100 )
 
 [node name="Ship Position 3" type="Position2D" parent="."]
 position = Vector2( 75, 100 )
+
+[node name="PlanetGoal" type="Label" parent="."]
+margin_left = 36.0
+margin_top = -68.0
+margin_right = 78.0
+margin_bottom = -27.0
+custom_fonts/font = ExtResource( 3 )
+text = "12"

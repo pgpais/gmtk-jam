@@ -1,3 +1,46 @@
-[gd_scene format=2]
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Entities/Planet.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Entities/Fleet.tscn" type="PackedScene" id=2]
 
 [node name="Game" type="Node2D"]
+
+[node name="Planet" parent="." instance=ExtResource( 1 )]
+position = Vector2( 193, 164 )
+
+[node name="Fleet" parent="Planet/Ship Position 1" index="0" instance=ExtResource( 2 )]
+
+[node name="Fleet" parent="Planet/Ship Position 2" index="0" instance=ExtResource( 2 )]
+
+[node name="Fleet" parent="Planet/Ship Position 3" index="0" instance=ExtResource( 2 )]
+
+[node name="Planet2" parent="." instance=ExtResource( 1 )]
+position = Vector2( 659, 172 )
+
+[node name="Planet3" parent="." instance=ExtResource( 1 )]
+position = Vector2( 613, 505 )
+
+[node name="Planet4" parent="." instance=ExtResource( 1 )]
+position = Vector2( 266, 478 )
+
+[node name="Line2D" type="Line2D" parent="."]
+z_index = -2
+points = PoolVector2Array( 256, 168, 583, 184 )
+default_color = Color( 0.4, 0.501961, 1, 1 )
+
+[node name="Line2D2" type="Line2D" parent="."]
+z_index = -2
+points = PoolVector2Array( 673, 250, 641, 444 )
+default_color = Color( 0.4, 0.501961, 1, 1 )
+
+[node name="Line2D4" type="Line2D" parent="."]
+z_index = -2
+points = PoolVector2Array( 194, 238, 242, 417 )
+default_color = Color( 0.4, 0.501961, 1, 1 )
+
+[node name="Line2D3" type="Line2D" parent="."]
+z_index = -2
+points = PoolVector2Array( 325, 492, 527, 499 )
+default_color = Color( 0.4, 0.501961, 1, 1 )
+
+[editable path="Planet"]
