@@ -84,6 +84,11 @@ namespace Entities
             }
         }
 
+        internal void AddConnectedPlanet(Planet neighbour)
+        {
+            ConnectedPlanets.Add(neighbour);
+        }
+
         public void MoveStationedFleet(Fleet fleet, Planet targetPlanet)
         {
             fleet.MoveFleet(targetPlanet);
