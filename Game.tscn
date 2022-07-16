@@ -14,47 +14,27 @@ PlayerNodePath = NodePath("Player")
 HUDNodePath = NodePath("HUD")
 FleetScene = ExtResource( 2 )
 
+[node name="Map" type="Node2D" parent="."]
+script = ExtResource( 6 )
+PlanetScene = ExtResource( 1 )
+FirstPlanetPositionNodePath = NodePath("First Planet")
+amountOfLayers = 6
+planetDistance = Vector2( 300, 200 )
+
+[node name="First Planet" type="Position2D" parent="Map"]
+position = Vector2( 200, 200 )
+
 [node name="HUD" parent="." instance=ExtResource( 3 )]
 
 [node name="Player" type="Node" parent="."]
 script = ExtResource( 4 )
 
-[node name="Planet" parent="." instance=ExtResource( 1 )]
-position = Vector2( 193, 164 )
-
-[node name="Planet2" parent="." instance=ExtResource( 1 )]
-position = Vector2( 659, 172 )
-
-[node name="Planet3" parent="." instance=ExtResource( 1 )]
-position = Vector2( 613, 505 )
-
-[node name="Planet4" parent="." instance=ExtResource( 1 )]
-position = Vector2( 266, 478 )
-
-[node name="Line2D" type="Line2D" parent="."]
-z_index = -2
-points = PoolVector2Array( 256, 168, 583, 184 )
-default_color = Color( 0.4, 0.501961, 1, 1 )
-
-[node name="Line2D2" type="Line2D" parent="."]
-z_index = -2
-points = PoolVector2Array( 673, 250, 641, 444 )
-default_color = Color( 0.4, 0.501961, 1, 1 )
-
-[node name="Line2D4" type="Line2D" parent="."]
-z_index = -2
-points = PoolVector2Array( 194, 238, 242, 417 )
-default_color = Color( 0.4, 0.501961, 1, 1 )
-
-[node name="Line2D3" type="Line2D" parent="."]
-z_index = -2
-points = PoolVector2Array( 325, 492, 527, 499 )
-default_color = Color( 0.4, 0.501961, 1, 1 )
-
 [node name="Managers" type="Node" parent="."]
-
-[node name="MapManager" type="Node" parent="Managers"]
-script = ExtResource( 6 )
 
 [node name="InputManager" type="Node" parent="Managers"]
 script = ExtResource( 7 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+current = true
+zoom = Vector2( 2, 2 )
