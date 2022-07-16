@@ -1,41 +1,19 @@
 using System;
 using Godot;
 
-public class MapManager : Node
+namespace Managers
 {
-    public override void _Ready()
+    public class MapManager : Node
     {
-        base._Ready();
-        SetupSignals();
-    }
-
-    private void SetupSignals()
-    {
-        Fleet.Fleets.ForEach(fleet =>
+        public override void _Ready()
         {
-            fleet.Connect(nameof(Fleet.FleetStartMovement), this, nameof(OnFleetStartedMovement));
-        });
-    }
+            base._Ready();
+            SetupSignals();
+        }
 
-    private void OnFleetStartedMovement(Fleet movingFleet)
-    {
-        Fleet.Fleets.ForEach(fleet =>
+        private void SetupSignals()
         {
-            fleet.Visible = false;
-        });
 
-        movingFleet.Visible = true;
-    }
-
-    private void CancelFleetMovement()
-    {
-        bool isInRightState = true; //TODO: do states in GameManager
-        if (isInRightState)
-        {
-            Fleet.Fleets.ForEach(fleet =>
-            {
-                fleet.Visible = true;
-            });
         }
     }
 }

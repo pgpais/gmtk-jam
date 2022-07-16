@@ -1,10 +1,13 @@
+using Godot;
+using Managers;
+
 namespace GameStates
 {
-    public abstract class State
+    public abstract class State : Node
     {
-        public virtual string Name { get; private set; } = "State";
+        public virtual string StateName { get; private set; } = "State";
 
-        private readonly GameManager gameManager;
+        protected readonly GameManager gameManager;
 
         public State(GameManager gameManager)
         {

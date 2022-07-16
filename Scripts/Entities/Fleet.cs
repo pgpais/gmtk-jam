@@ -5,24 +5,27 @@ using Godot;
 public class Fleet : Area2D
 {
     public static List<Fleet> Fleets = new List<Fleet>();
-
-    /// <summary>
-    /// Signals that the fleet was clicked on and the player wants to move it.
-    /// </summary>
-    /// <param name="fleet">The moving fleet</param>
     [Signal]
-    public delegate void FleetStartMovement(Fleet fleet);
+    public delegate void FleetClicked(Fleet fleet);
     [Signal]
     public delegate void FleetMoved(Fleet fleet, Planet planet);
 
     [Export(PropertyHint.Range, "1,6,1")]
     public int ShipsInFleet { get; private set; } = 1;
+
     [Export]
     private readonly List<NodePath> DieSpritesPath;
 
     public Planet StationedPlanet { get; private set; }
 
     readonly List<Sprite> dieSprites = new List<Sprite>();
+
+    private Planet startingPlanet;
+
+    public Fleet()
+    {
+
+    }
 
     public override void _EnterTree()
     {
@@ -54,24 +57,25 @@ public class Fleet : Area2D
         base._InputEvent(viewport, @event, shapeIdx);
         if (@event is InputEventMouseButton button && button.Pressed)
         {
-            EmitSignal(nameof(FleetStartMovement), this);
-            GD.Print("Moving fleet");
+            EmitSignal(nameof(FleetClicked), this);
+            GD.Print("Fleet clicked");
         }
+    }
 
-        // if pressed escape cancel movement
-        if (@event is InputEventKey key && key.Pressed && key.Scancode == (int)KeyList.Escape)
+    public void MoveFleet(Planet targetPlanet)
+    {
+        bool planetsAreConnect = true;
+        if (planetsAreConnect)
         {
-            GD.Print("movement cancelled");
+            Planet previousPlanet = StationedPlanet;
+            SetStationedPlanet(targetPlanet);
+            previousPlanet?.RemoveStationedFleet(this);
+            StationedPlanet.AddStationedFleet(this);
         }
     }
 
     public void SetStationedPlanet(Planet planet)
     {
         StationedPlanet = planet;
-    }
-
-    public void StartMovingFleet()
-    {
-        EmitSignal(nameof(FleetStartMovement), this);
     }
 }
