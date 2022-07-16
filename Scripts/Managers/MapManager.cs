@@ -36,7 +36,7 @@ namespace Managers
             var planet = PlanetScene.Instance<Planet>();
             AddChild(planet);
 
-            planet.GlobalPosition = firstPlanetPosition.GlobalPosition; //go from 0/2 to 2/2 when numberOfPlanetsInLayer == 3. this is a sort of interpolation between both positions.
+            planet.GlobalPosition = firstPlanetPosition.GlobalPosition;
 
             for (int i = 1; i < amountOfLayers; i++)
             {
