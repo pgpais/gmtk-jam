@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Resources/Sprites/kenney_simplespace/PNG/Default/ship_I.png" type="Texture" id=1]
 [ext_resource path="res://Resources/Sprites/kenney_simplespace/PNG/Default/ship_sidesC.png" type="Texture" id=2]
@@ -10,7 +10,10 @@
 [ext_resource path="res://Resources/Sprites/boardgamepack/PNG/Dice/dieWhite_border6.png" type="Texture" id=8]
 [ext_resource path="res://Resources/Sprites/boardgamepack/PNG/Dice/dieWhite_border5.png" type="Texture" id=9]
 
-[node name="Fleet" type="Node2D"]
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 27, 26.5 )
+
+[node name="Fleet" type="Area2D"]
 script = ExtResource( 4 )
 DieSpritesPath = [ NodePath("Status/DieWhite1"), NodePath("Status/DieWhite2"), NodePath("Status/DieWhite3"), NodePath("Status/DieWhite4"), NodePath("Status/DieWhite5"), NodePath("Status/DieWhite6") ]
 
@@ -50,3 +53,7 @@ texture = ExtResource( 9 )
 [node name="DieWhite6" type="Sprite" parent="Status"]
 scale = Vector2( 0.28125, 0.28125 )
 texture = ExtResource( 8 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -1, -0.5 )
+shape = SubResource( 1 )

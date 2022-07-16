@@ -13,14 +13,14 @@ namespace Entities
         public List<NodePath> FleetPositionPaths { get; private set; }
         [Export]
         public NodePath PlanetGoalLabelPath { get; private set; }
+        [Export]
+        public List<NodePath> ConnectedPlanetsNodePaths { get; private set; }
 
         public List<Planet> ConnectedPlanets { get; private set; } = new List<Planet>();
-
-
-
         public int ShipsInPlanet { get; private set; } = 0;
-        List<Position2D> fleetPositions = new List<Position2D>();
-        List<Fleet> fleetsInPlanet = new List<Fleet>();
+
+        readonly List<Position2D> fleetPositions = new List<Position2D>();
+        readonly List<Fleet> fleetsInPlanet = new List<Fleet>();
         private Label planetGoalLabel;
 
         // Called when the node enters the scene tree for the first time.
@@ -32,6 +32,10 @@ namespace Entities
             foreach (NodePath fleetPositionPath in FleetPositionPaths)
             {
                 fleetPositions.Add(GetNode<Position2D>(fleetPositionPath));
+            }
+            foreach (var ConnectedPlanetNodePath in ConnectedPlanetsNodePaths)
+            {
+                ConnectedPlanets.Add(GetNode<Planet>(ConnectedPlanetNodePath));
             }
         }
 
@@ -46,8 +50,25 @@ namespace Entities
             {
                 fleetsInPlanet.Add(fleet);
                 fleet.SetStationedPlanet(this);
+                fleet.Connect(nameof(Fleet.FleetMoved), this, nameof(MoveFleet));
+
                 ShipsInPlanet += fleet.ShipsInFleet;
                 UpdateFleetPositions();
+            }
+        }
+
+        public void MoveFleet(Fleet fleet, Planet planet)
+        {
+            if (fleetsInPlanet.Contains(fleet))
+            {
+                fleetsInPlanet.Remove(fleet);
+                ShipsInPlanet -= fleet.ShipsInFleet;
+                planet.AddFleet(fleet);
+                UpdateFleetPositions();
+            }
+            else
+            {
+                throw new Exception("Fleet not found on planet");
             }
         }
 
@@ -57,6 +78,7 @@ namespace Entities
             {
                 fleetsInPlanet.Remove(fleet);
                 ShipsInPlanet -= fleet.ShipsInFleet;
+                fleet.SetStationedPlanet(null);
                 UpdateFleetPositions();
             }
             else
