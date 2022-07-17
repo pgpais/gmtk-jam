@@ -1,3 +1,4 @@
+using System;
 using Entities;
 using GameStates;
 using Godot;
@@ -28,17 +29,26 @@ public class ActionSelectionState : State
         {
             planet.Connect(nameof(Planet.PlanetClicked), this, nameof(OnPlanetSelected));
         });
+        HUD.Instance.Connect(nameof(HUD.NextCycleButtonPressed), this, nameof(OnNextCycleButtonPressed));
     }
 
     public override void Exit()
+    {
+        QueueFree();
+        GD.Print("ActionSelectionState.Exit()");
+    }
+
+    private void DisconnectSignals()
     {
         Fleet.Fleets.ForEach(fleet =>
         {
             fleet.Disconnect(nameof(Fleet.FleetClicked), this, nameof(OnFleetSelected));
         });
-        QueueFree();
-
-        GD.Print("ActionSelectionState.Exit()");
+        Planet.Planets.ForEach(planet =>
+        {
+            planet.Disconnect(nameof(Planet.PlanetClicked), this, nameof(OnPlanetSelected));
+        });
+        HUD.Instance.Disconnect(nameof(HUD.NextCycleButtonPressed), this, nameof(OnNextCycleButtonPressed));
     }
 
     private void OnFleetSelected(Fleet fleet)
@@ -49,5 +59,10 @@ public class ActionSelectionState : State
     private void OnPlanetSelected(Planet planet)
     {
         gameManager.SetState(new PlanetSelectedState(gameManager, planet));
+    }
+
+    private void OnNextCycleButtonPressed()
+    {
+        gameManager.SetState(new NextCycleState(gameManager));
     }
 }

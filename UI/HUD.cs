@@ -7,7 +7,11 @@ public class HUD : CanvasLayer
 
     [Signal]
     public delegate void PlanetInfoTabCloseButtonPressed();
+    [Signal]
+    public delegate void NextCycleButtonPressed();
 
+    [Export]
+    private readonly NodePath NextCycleButtonNodePath;
     [Export]
     private readonly NodePath FoodHintLabelNodePath;
     [Export]
@@ -17,6 +21,7 @@ public class HUD : CanvasLayer
     [Export]
     private readonly NodePath PlanetInfoTabNodePath;
 
+    private Button nextCycleButton;
     private Label foodHintLabel;
     private Label fleetHintLabel;
     private Label movementHintLabel;
@@ -34,6 +39,7 @@ public class HUD : CanvasLayer
             throw new Exception("HUD is a singleton class and can only be instantiated once.");
         }
 
+        nextCycleButton = GetNode<Button>(NextCycleButtonNodePath);
         foodHintLabel = GetNode<Label>(FoodHintLabelNodePath);
         fleetHintLabel = GetNode<Label>(FleetHintLabelNodePath);
         movementHintLabel = GetNode<Label>(MovementHintLabelNodePath);
@@ -50,6 +56,11 @@ public class HUD : CanvasLayer
     private void OnCloseButtonPressed()
     {
         EmitSignal(nameof(PlanetInfoTabCloseButtonPressed));
+    }
+
+    private void OnNextCycleButtonPressed()
+    {
+        EmitSignal(nameof(NextCycleButtonPressed));
     }
 
     public void ConnectPlayerSignals(Player player)
@@ -87,5 +98,10 @@ public class HUD : CanvasLayer
     public void HidePlanetBonus()
     {
         planetInfoTab.Visible = false;
+    }
+
+    public void GreyOutInteractables()
+    {
+        nextCycleButton.Disabled = true;
     }
 }

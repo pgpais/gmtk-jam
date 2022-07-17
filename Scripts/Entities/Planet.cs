@@ -15,17 +15,18 @@ namespace Entities
         [Export]
         public int PlanetGoal { get; private set; }
         [Export]
-        public NodePath SpriteNodePath { get; private set; }
+        private readonly NodePath SpriteNodePath;
         [Export]
-        public List<NodePath> FleetPositionPaths { get; private set; }
+        private readonly List<NodePath> FleetPositionPaths;
         [Export]
-        public NodePath PlanetGoalLabelPath { get; private set; }
+        private readonly NodePath PlanetGoalLabelPath;
         [Export]
-        public List<NodePath> ConnectedPlanetsNodePaths { get; private set; } = new List<NodePath>();
+        private readonly List<NodePath> ConnectedPlanetsNodePaths = new List<NodePath>();
 
         public GameResource ResourceReward { get; private set; }
         public int RewardAmount { get; private set; }
         public List<Planet> ConnectedPlanets { get; private set; } = new List<Planet>();
+        public bool PlanetGoalMet => ShipsInPlanet == PlanetGoal;
         public int ShipsInPlanet { get; private set; } = 0;
 
         private Sprite sprite;
@@ -78,6 +79,12 @@ namespace Entities
                 EmitSignal(nameof(PlanetClicked), this);
                 GD.Print("Planet clicked");
             }
+        }
+
+        internal void SetGoal(int planetGoal)
+        {
+            PlanetGoal = planetGoal;
+            planetGoalLabel.Text = planetGoal.ToString();
         }
 
         public void SetUnselectable()

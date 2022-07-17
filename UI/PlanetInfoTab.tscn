@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Resources/Fonts/Font Files/KenneyFutureNarrow-36.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Resources/Fonts/Font Files/KennyBlocks-32.tres" type="DynamicFont" id=2]
@@ -6,11 +6,7 @@
 [ext_resource path="res://UI/PlanetInfoTab.cs" type="Script" id=4]
 [ext_resource path="res://Resources/Sprites/kenney_boardgameicons/PNG/Default (64px)/pawn.png" type="Texture" id=5]
 [ext_resource path="res://Resources/Sprites/kenney_boardgameicons/PNG/Default (64px)/arrow_right_curve.png" type="Texture" id=6]
-[ext_resource path="res://Resources/Fonts/Font Files/Kenney Future Narrow.ttf" type="DynamicFontData" id=7]
-
-[sub_resource type="DynamicFont" id=1]
-size = 18
-font_data = ExtResource( 7 )
+[ext_resource path="res://Resources/Fonts/Font Files/KenneyFutureNarrow-18.tres" type="DynamicFont" id=7]
 
 [node name="PlanetInfoTab" type="PanelContainer"]
 anchor_left = 1.0
@@ -86,7 +82,7 @@ text = "+16"
 margin_top = 549.0
 margin_right = 242.0
 margin_bottom = 576.0
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = ExtResource( 7 )
 text = "Close"
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer2/Button" to="." method="OnCloseButtonPressed"]

@@ -100,6 +100,19 @@ public class Fleet : Area2D
         StationedPlanet = planet;
     }
 
+    public void RollShipsInFleet()
+    {
+        ShipsInFleet = new System.Random().Next(1, 6);
+        dieSprites[ShipsInFleet - 1].Visible = true;
+        for (int i = 0; i < dieSprites.Count; i++)
+        {
+            if (i != ShipsInFleet - 1)
+            {
+                dieSprites[i].Visible = false;
+            }
+        }
+    }
+
     public static void GreyOutFleets()
     {
         foreach (Fleet fleet in Fleets)

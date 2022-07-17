@@ -21,6 +21,7 @@ namespace GameStates
         {
             Fleet.GreyOutFleets();
             Planet.GreyOutPlanets();
+            HUD.Instance.GreyOutInteractables();
 
             fleet.SetSelectable();
             ShowConnectedPlanets();

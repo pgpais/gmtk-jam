@@ -1,3 +1,4 @@
+using System;
 using Godot;
 
 public class Player : Node
@@ -18,5 +19,41 @@ public class Player : Node
         FoodAmount = 10;
         FleetAmount = 3;
         MovementAmount = 1;
+    }
+
+    public void AddFood(int amount)
+    {
+        FoodAmount += amount;
+        EmitSignal(nameof(FoodChanged), FoodAmount);
+    }
+
+    public void AddFleet(int amount)
+    {
+        FleetAmount += amount;
+        EmitSignal(nameof(FleetChanged), FleetAmount);
+    }
+
+    public void AddMovement(int amount)
+    {
+        MovementAmount += amount;
+        EmitSignal(nameof(MovementChanged), MovementAmount);
+    }
+
+    internal void GetRewards(GameResource resourceReward, int rewardAmount)
+    {
+        switch (resourceReward)
+        {
+            case GameResource.Food:
+                AddFood(rewardAmount);
+                break;
+            case GameResource.Fleet:
+                AddFleet(rewardAmount);
+                break;
+            case GameResource.Movement:
+                AddMovement(rewardAmount);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(resourceReward), resourceReward, null);
+        }
     }
 }

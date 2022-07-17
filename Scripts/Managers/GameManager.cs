@@ -20,9 +20,6 @@ namespace Managers
         private State previousState;
         private State currentState;
 
-        //TODO: think about how to handle  different states of game (selecting fleet, selecting planet to move, etc.)
-        // I am thinking that a state machine would be a good idea.
-
         public override void _Ready()
         {
             player = GetNode<Player>(PlayerNodePath);
@@ -34,6 +31,7 @@ namespace Managers
             {
                 Fleet fleet = FleetScene.Instance<Fleet>();
                 fleet.MoveFleet(Planet.Planets[0], false);
+                fleet.RollShipsInFleet();
             }
             SetState(new ActionSelectionState(this));
         }
@@ -44,6 +42,11 @@ namespace Managers
             currentState = nextState;
             previousState?.Exit();
             currentState.Enter();
+        }
+
+        public void ActivatePlanet(Planet planet)
+        {
+            player.GetRewards(planet.ResourceReward, planet.RewardAmount);
         }
 
         private void SetupSignals()

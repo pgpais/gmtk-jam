@@ -18,8 +18,8 @@ FleetScene = ExtResource( 2 )
 script = ExtResource( 6 )
 PlanetScene = ExtResource( 1 )
 FirstPlanetPositionNodePath = NodePath("First Planet")
-amountOfLayers = 5
-planetDistance = Vector2( 300, 200 )
+AmountOfLayers = 5
+PlanetDistance = Vector2( 300, 200 )
 
 [node name="First Planet" type="Position2D" parent="Map"]
 position = Vector2( 200, 200 )

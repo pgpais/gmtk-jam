@@ -14,14 +14,14 @@ namespace Managers
         [Export]
         public NodePath FirstPlanetPositionNodePath { get; private set; }
         [Export]
-        public int amountOfLayers { get; private set; }
+        public int AmountOfLayers { get; private set; }
         [Export]
-        public Vector2 planetDistance { get; private set; }
+        public Vector2 PlanetDistance { get; private set; }
 
         public List<List<Planet>> PlanetLayers { get; private set; } = new List<List<Planet>>();
 
         private Position2D firstPlanetPosition;
-        private List<Line2D> planetConnections = new List<Line2D>();
+        private readonly List<Line2D> planetConnections = new List<Line2D>();
 
         public override void _Ready()
         {
@@ -52,10 +52,10 @@ namespace Managers
             layer.Add(planet);
             AddChild(planet);
 
-            RandomizePlanetRewards(planet);
+            RandomizePlanetInfo(planet);
             planet.GlobalPosition = firstPlanetPosition.GlobalPosition;
 
-            for (int i = 1; i < amountOfLayers; i++)
+            for (int i = 1; i < AmountOfLayers; i++)
             {
                 layer = new List<Planet>();
                 PlanetLayers.Add(layer);
@@ -66,15 +66,17 @@ namespace Managers
                     layer.Add(planet);
                     AddChild(planet);
 
-                    RandomizePlanetRewards(planet);
-                    planet.GlobalPosition = firstPlanetPosition.GlobalPosition + new Vector2((j / (numberOfPlanetsInLayer - 1)) * i * planetDistance.x, ((numberOfPlanetsInLayer - 1 - j) / (numberOfPlanetsInLayer - 1)) * i * planetDistance.y); //go from 0/2 to 2/2 when numberOfPlanetsInLayer == 3. this is a sort of interpolation between both positions.
+                    RandomizePlanetInfo(planet);
+                    planet.GlobalPosition = firstPlanetPosition.GlobalPosition + new Vector2((j / (numberOfPlanetsInLayer - 1)) * i * PlanetDistance.x, ((numberOfPlanetsInLayer - 1 - j) / (numberOfPlanetsInLayer - 1)) * i * PlanetDistance.y); //go from 0/2 to 2/2 when numberOfPlanetsInLayer == 3. this is a sort of interpolation between both positions.
                 }
             }
         }
 
-        private void RandomizePlanetRewards(Planet planet)
+        private void RandomizePlanetInfo(Planet planet)
         {
             var random = new Random();
+
+            planet.SetGoal(random.Next(1, 12));
             planet.SetRewards((GameResource)random.Next(0, 3), random.Next(1, 10));
         }
 
