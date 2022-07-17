@@ -12,3 +12,7 @@ data_*/
 
 # Imported translations (automatically generated from CSV files)
 *.translation
+Scripts/GameStates/NextCycleState.cs
+
+# Ignore Builds folder
+Builds/
