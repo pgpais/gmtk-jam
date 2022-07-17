@@ -48,6 +48,7 @@ namespace GameStates
         {
             Fleet.UngreyFleets();
             Planet.UngreyPlanets();
+            HUD.Instance.UnGreyOutInteractables();
             MapManager.Instance.HidePlanetConnections();
 
             DisconnectSignals();

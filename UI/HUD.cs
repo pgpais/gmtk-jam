@@ -104,4 +104,9 @@ public class HUD : CanvasLayer
     {
         nextCycleButton.Disabled = true;
     }
+
+    public void UnGreyOutInteractables()
+    {
+        nextCycleButton.Disabled = false;
+    }
 }

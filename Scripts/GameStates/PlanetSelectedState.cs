@@ -18,6 +18,8 @@ public class PlanetSelectedState : State
 
         Planet.GreyOutPlanets();
         Fleet.GreyOutFleets();
+        HUD.Instance.GreyOutInteractables();
+
         selectedPlanet.SetSelectable();
         ShowPlanetScreen();
     }
@@ -48,6 +50,7 @@ public class PlanetSelectedState : State
     {
         Planet.UngreyPlanets();
         Fleet.UngreyFleets();
+        HUD.Instance.UnGreyOutInteractables();
         HUD.Instance.HidePlanetBonus();
     }
 }
