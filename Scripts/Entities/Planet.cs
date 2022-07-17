@@ -15,7 +15,7 @@ namespace Entities
         [Export]
         public int PlanetGoal { get; private set; }
         [Export]
-        public NodePath spriteNodePath { get; private set; }
+        public NodePath SpriteNodePath { get; private set; }
         [Export]
         public List<NodePath> FleetPositionPaths { get; private set; }
         [Export]
@@ -23,6 +23,8 @@ namespace Entities
         [Export]
         public List<NodePath> ConnectedPlanetsNodePaths { get; private set; } = new List<NodePath>();
 
+        public GameResource ResourceReward { get; private set; }
+        public int RewardAmount { get; private set; }
         public List<Planet> ConnectedPlanets { get; private set; } = new List<Planet>();
         public int ShipsInPlanet { get; private set; } = 0;
 
@@ -53,7 +55,13 @@ namespace Entities
         public override void _Ready()
         {
             planetGoalLabel.Text = PlanetGoal.ToString();
-            sprite = GetNode<Sprite>(spriteNodePath);
+            sprite = GetNode<Sprite>(SpriteNodePath);
+        }
+
+        public void SetRewards(GameResource resource, int amount)
+        {
+            ResourceReward = resource;
+            RewardAmount = amount;
         }
 
         override public void _ExitTree()
@@ -96,7 +104,6 @@ namespace Entities
             else
             {
                 fleetsInPlanet.Add(fleet);
-                fleet.Connect(nameof(Fleet.FleetMoved), this, nameof(MoveStationedFleet));
 
                 ShipsInPlanet += fleet.ShipsInFleet;
                 UpdateFleetPositions();
@@ -108,17 +115,11 @@ namespace Entities
             ConnectedPlanets.Add(neighbour);
         }
 
-        public void MoveStationedFleet(Fleet fleet, Planet targetPlanet)
-        {
-            fleet.MoveFleet(targetPlanet);
-        }
-
         public void RemoveStationedFleet(Fleet fleet)
         {
             if (fleetsInPlanet.Contains(fleet))
             {
                 fleetsInPlanet.Remove(fleet);
-                fleet.Disconnect(nameof(Fleet.FleetMoved), this, nameof(MoveStationedFleet));
 
                 ShipsInPlanet -= fleet.ShipsInFleet;
                 UpdateFleetPositions();
@@ -147,6 +148,22 @@ namespace Entities
                 {
                     position.RemoveChild(fleet);
                 }
+            }
+        }
+
+        public static void GreyOutPlanets()
+        {
+            foreach (var planet in Planet.Planets)
+            {
+                planet.SetUnselectable();
+            }
+        }
+
+        public static void UngreyPlanets()
+        {
+            foreach (var planet in Planet.Planets)
+            {
+                planet.SetSelectable();
             }
         }
     }

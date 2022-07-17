@@ -19,8 +19,8 @@ namespace GameStates
 
         public override void Enter()
         {
-            GreyOutFleets();
-            GreyOutPlanets();
+            Fleet.GreyOutFleets();
+            Planet.GreyOutPlanets();
 
             fleet.SetSelectable();
             ShowConnectedPlanets();
@@ -30,28 +30,12 @@ namespace GameStates
             GD.Print("FleetSelectionState.Enter()");
         }
 
-
-        private void GreyOutPlanets()
-        {
-            foreach (Planet planet in Planet.Planets)
-            {
-                planet.SetUnselectable();
-            }
-        }
         private void ShowConnectedPlanets()
         {
             foreach (Planet connectedPlanet in stationedPlanet.ConnectedPlanets)
             {
                 connectedPlanet.SetSelectable();
             }
-        }
-
-        private void GreyOutFleets()
-        {
-            Fleet.Fleets.ForEach(fleet =>
-            {
-                fleet.SetUnselectable();
-            });
         }
 
         private void ShowPlanetConnections()
@@ -61,29 +45,14 @@ namespace GameStates
 
         public override void Exit()
         {
-            ShowFleets();
-            ShowPlanets();
+            Fleet.UngreyFleets();
+            Planet.UngreyPlanets();
             MapManager.Instance.HidePlanetConnections();
 
+            DisconnectSignals();
             QueueFree();
 
             GD.Print("FleetSelectionState.Exit()");
-        }
-
-        private void ShowFleets()
-        {
-            Fleet.Fleets.ForEach(fleet =>
-            {
-                fleet.SetSelectable();
-            });
-        }
-
-        private void ShowPlanets()
-        {
-            Planet.Planets.ForEach(planet =>
-            {
-                planet.SetSelectable();
-            });
         }
 
         private void SetupSignals()
@@ -95,6 +64,15 @@ namespace GameStates
             InputManager.Instance.Connect(nameof(InputManager.OnCancelAction), this, nameof(OnFleetCanceled));
         }
 
+        private void DisconnectSignals()
+        {
+            Planet.Planets.ForEach(planet =>
+            {
+                planet.Disconnect(nameof(Planet.PlanetClicked), this, nameof(OnPlanetSelected));
+            });
+            InputManager.Instance.Disconnect(nameof(InputManager.OnCancelAction), this, nameof(OnFleetCanceled));
+        }
+
         private void OnFleetCanceled()
         {
             gameManager.SetState(new ActionSelectionState(gameManager));
@@ -104,7 +82,7 @@ namespace GameStates
         {
             if (stationedPlanet.ConnectedPlanets.Contains(planet))
             {
-                fleet.MoveFleet(planet);
+                fleet.MoveFleet(planet, true);
                 gameManager.SetState(new ActionSelectionState(gameManager));
             }
             else

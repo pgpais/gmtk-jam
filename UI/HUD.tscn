@@ -1,15 +1,17 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://UI/ResourceHint.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Resources/Sprites/kenney_boardgameicons/PNG/Default (64px)/pawn.png" type="Texture" id=2]
 [ext_resource path="res://Resources/Sprites/kenney_boardgameicons/PNG/Default (64px)/arrow_right_curve.png" type="Texture" id=3]
 [ext_resource path="res://UI/HUD.cs" type="Script" id=4]
+[ext_resource path="res://UI/PlanetInfoTab.tscn" type="PackedScene" id=5]
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource( 4 )
 FoodHintLabelNodePath = NodePath("HBoxContainer/FoodHint/Label")
 FleetHintLabelNodePath = NodePath("HBoxContainer/FleetHint/Label")
 MovementHintLabelNodePath = NodePath("HBoxContainer/MovementsHint/Label")
+PlanetInfoTabNodePath = NodePath("PlanetInfoTab")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 anchor_right = 1.0
@@ -48,6 +50,8 @@ texture = ExtResource( 3 )
 
 [node name="Label" parent="HBoxContainer/MovementsHint" index="1"]
 margin_right = 140.0
+
+[node name="PlanetInfoTab" parent="." instance=ExtResource( 5 )]
 
 [editable path="HBoxContainer/FoodHint"]
 [editable path="HBoxContainer/FleetHint"]

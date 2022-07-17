@@ -78,7 +78,7 @@ public class Fleet : Area2D
         }
     }
 
-    public void MoveFleet(Planet targetPlanet)
+    public void MoveFleet(Planet targetPlanet, bool wasPlayerAction)
     {
         bool planetsAreConnect = true;
         if (planetsAreConnect)
@@ -87,11 +87,32 @@ public class Fleet : Area2D
             SetStationedPlanet(targetPlanet);
             previousPlanet?.RemoveStationedFleet(this);
             StationedPlanet.AddStationedFleet(this);
+
+            if (wasPlayerAction)
+            {
+                EmitSignal(nameof(FleetMoved), this, targetPlanet);
+            }
         }
     }
 
     public void SetStationedPlanet(Planet planet)
     {
         StationedPlanet = planet;
+    }
+
+    public static void GreyOutFleets()
+    {
+        foreach (Fleet fleet in Fleets)
+        {
+            fleet.SetUnselectable();
+        }
+    }
+
+    public static void UngreyFleets()
+    {
+        foreach (Fleet fleet in Fleets)
+        {
+            fleet.SetSelectable();
+        }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Entities;
 using Godot;
@@ -36,6 +37,7 @@ namespace Managers
             }
 
             firstPlanetPosition = GetNode<Position2D>(FirstPlanetPositionNodePath);
+
             CreateMap();
             ConnectPlanets();
 
@@ -45,11 +47,12 @@ namespace Managers
         private void CreateMap()
         {
             var layer = new List<Planet>();
-            var planet = PlanetScene.Instance<Planet>();
             PlanetLayers.Add(layer);
+            var planet = PlanetScene.Instance<Planet>();
             layer.Add(planet);
             AddChild(planet);
 
+            RandomizePlanetRewards(planet);
             planet.GlobalPosition = firstPlanetPosition.GlobalPosition;
 
             for (int i = 1; i < amountOfLayers; i++)
@@ -63,9 +66,16 @@ namespace Managers
                     layer.Add(planet);
                     AddChild(planet);
 
+                    RandomizePlanetRewards(planet);
                     planet.GlobalPosition = firstPlanetPosition.GlobalPosition + new Vector2((j / (numberOfPlanetsInLayer - 1)) * i * planetDistance.x, ((numberOfPlanetsInLayer - 1 - j) / (numberOfPlanetsInLayer - 1)) * i * planetDistance.y); //go from 0/2 to 2/2 when numberOfPlanetsInLayer == 3. this is a sort of interpolation between both positions.
                 }
             }
+        }
+
+        private void RandomizePlanetRewards(Planet planet)
+        {
+            var random = new Random();
+            planet.SetRewards((GameResource)random.Next(0, 3), random.Next(1, 10));
         }
 
         private void ConnectPlanets()

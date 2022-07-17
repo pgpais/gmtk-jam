@@ -1,3 +1,4 @@
+using Entities;
 using GameStates;
 using Godot;
 using Managers;
@@ -23,6 +24,10 @@ public class ActionSelectionState : State
         {
             fleet.Connect(nameof(Fleet.FleetClicked), this, nameof(OnFleetSelected));
         });
+        Planet.Planets.ForEach(planet =>
+        {
+            planet.Connect(nameof(Planet.PlanetClicked), this, nameof(OnPlanetSelected));
+        });
     }
 
     public override void Exit()
@@ -36,8 +41,13 @@ public class ActionSelectionState : State
         GD.Print("ActionSelectionState.Exit()");
     }
 
-    public void OnFleetSelected(Fleet fleet)
+    private void OnFleetSelected(Fleet fleet)
     {
         gameManager.SetState(new FleetSelectedState(gameManager, fleet));
+    }
+
+    private void OnPlanetSelected(Planet planet)
+    {
+        gameManager.SetState(new PlanetSelectedState(gameManager, planet));
     }
 }

@@ -33,7 +33,7 @@ namespace Managers
             for (int i = 0; i < 3; i++)
             {
                 Fleet fleet = FleetScene.Instance<Fleet>();
-                fleet.MoveFleet(Planet.Planets[0]);
+                fleet.MoveFleet(Planet.Planets[0], false);
             }
             SetState(new ActionSelectionState(this));
         }
