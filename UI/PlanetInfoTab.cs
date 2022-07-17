@@ -3,6 +3,8 @@ using Godot;
 
 public class PlanetInfoTab : PanelContainer
 {
+    [Signal]
+    public delegate void CloseButtonPressed();
     [Export]
     private readonly NodePath planetBonusTextureRectPath;
     [Export]
@@ -42,5 +44,10 @@ public class PlanetInfoTab : PanelContainer
                 throw new ArgumentOutOfRangeException(nameof(resource), resource, null);
         }
         planetBonusText.Text = "+" + amount.ToString();
+    }
+
+    public void OnCloseButtonPressed()
+    {
+        EmitSignal(nameof(CloseButtonPressed));
     }
 }

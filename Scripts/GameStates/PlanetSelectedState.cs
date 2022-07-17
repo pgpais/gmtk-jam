@@ -25,11 +25,13 @@ public class PlanetSelectedState : State
     private void SetupSignals()
     {
         InputManager.Instance.Connect(nameof(InputManager.OnCancelAction), this, nameof(OnCancelAction));
+        HUD.Instance.Connect(nameof(HUD.PlanetInfoTabCloseButtonPressed), this, nameof(OnCancelAction));
     }
 
     private void DisconnectSignals()
     {
         InputManager.Instance.Disconnect(nameof(InputManager.OnCancelAction), this, nameof(OnCancelAction));
+        HUD.Instance.Disconnect(nameof(HUD.PlanetInfoTabCloseButtonPressed), this, nameof(OnCancelAction));
     }
 
     private void OnCancelAction()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Resources/Fonts/Font Files/KenneyFutureNarrow-36.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Resources/Fonts/Font Files/KennyBlocks-32.tres" type="DynamicFont" id=2]
@@ -6,6 +6,11 @@
 [ext_resource path="res://UI/PlanetInfoTab.cs" type="Script" id=4]
 [ext_resource path="res://Resources/Sprites/kenney_boardgameicons/PNG/Default (64px)/pawn.png" type="Texture" id=5]
 [ext_resource path="res://Resources/Sprites/kenney_boardgameicons/PNG/Default (64px)/arrow_right_curve.png" type="Texture" id=6]
+[ext_resource path="res://Resources/Fonts/Font Files/Kenney Future Narrow.ttf" type="DynamicFontData" id=7]
+
+[sub_resource type="DynamicFont" id=1]
+size = 18
+font_data = ExtResource( 7 )
 
 [node name="PlanetInfoTab" type="PanelContainer"]
 anchor_left = 1.0
@@ -14,8 +19,8 @@ anchor_bottom = 1.0
 margin_left = -78.0
 grow_horizontal = 0
 script = ExtResource( 4 )
-planetBonusTextureRectPath = NodePath("MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer/TextureRect")
-planetBonusTextPath = NodePath("MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer/Label")
+planetBonusTextureRectPath = NodePath("MarginContainer/VBoxContainer2/PlanetInfoContent/HBoxContainer/TextureRect")
+planetBonusTextPath = NodePath("MarginContainer/VBoxContainer2/PlanetInfoContent/HBoxContainer/Label")
 wheatTexture = ExtResource( 3 )
 movementTexture = ExtResource( 6 )
 fleetTexture = ExtResource( 5 )
@@ -48,31 +53,40 @@ text = "Planet Info"
 align = 1
 valign = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer2"]
+[node name="PlanetInfoContent" type="VBoxContainer" parent="MarginContainer/VBoxContainer2"]
 margin_top = 45.0
 margin_right = 242.0
-margin_bottom = 576.0
+margin_bottom = 545.0
 size_flags_vertical = 3
 alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer2/VBoxContainer"]
-margin_top = 233.0
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer2/PlanetInfoContent"]
+margin_top = 218.0
 margin_right = 242.0
-margin_bottom = 297.0
+margin_bottom = 282.0
 size_flags_vertical = 0
 custom_constants/separation = 10
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer2/PlanetInfoContent/HBoxContainer"]
 margin_left = 48.0
 margin_right = 112.0
 margin_bottom = 64.0
 texture = ExtResource( 3 )
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer2/PlanetInfoContent/HBoxContainer"]
 margin_left = 122.0
 margin_top = 8.0
 margin_right = 194.0
 margin_bottom = 56.0
 custom_fonts/font = ExtResource( 2 )
 text = "+16"
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer2"]
+margin_top = 549.0
+margin_right = 242.0
+margin_bottom = 576.0
+custom_fonts/font = SubResource( 1 )
+text = "Close"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer2/Button" to="." method="OnCloseButtonPressed"]

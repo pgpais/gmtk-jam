@@ -5,6 +5,9 @@ public class HUD : CanvasLayer
 {
     public static HUD Instance;
 
+    [Signal]
+    public delegate void PlanetInfoTabCloseButtonPressed();
+
     [Export]
     private readonly NodePath FoodHintLabelNodePath;
     [Export]
@@ -35,6 +38,18 @@ public class HUD : CanvasLayer
         fleetHintLabel = GetNode<Label>(FleetHintLabelNodePath);
         movementHintLabel = GetNode<Label>(MovementHintLabelNodePath);
         planetInfoTab = GetNode<PlanetInfoTab>(PlanetInfoTabNodePath);
+
+        ConnectSignals();
+    }
+
+    private void ConnectSignals()
+    {
+        planetInfoTab.Connect(nameof(PlanetInfoTab.CloseButtonPressed), this, nameof(OnCloseButtonPressed));
+    }
+
+    private void OnCloseButtonPressed()
+    {
+        EmitSignal(nameof(PlanetInfoTabCloseButtonPressed));
     }
 
     public void ConnectPlayerSignals(Player player)
