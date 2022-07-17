@@ -1,10 +1,12 @@
 using System.Collections.Generic;
+using System.Linq;
 using Entities;
 using Godot;
 
 public class Fleet : Area2D
 {
     public static List<Fleet> Fleets = new List<Fleet>();
+    public static int NumberOfShipsInFleets => Fleets.Sum(fleet => fleet.ShipsInFleet);
     [Signal]
     public delegate void FleetClicked(Fleet fleet);
     [Signal]
@@ -80,18 +82,14 @@ public class Fleet : Area2D
 
     public void MoveFleet(Planet targetPlanet, bool wasPlayerAction)
     {
-        bool planetsAreConnect = true;
-        if (planetsAreConnect)
-        {
-            Planet previousPlanet = StationedPlanet;
-            SetStationedPlanet(targetPlanet);
-            previousPlanet?.RemoveStationedFleet(this);
-            StationedPlanet.AddStationedFleet(this);
+        Planet previousPlanet = StationedPlanet;
+        SetStationedPlanet(targetPlanet);
+        previousPlanet?.RemoveStationedFleet(this);
+        StationedPlanet.AddStationedFleet(this);
 
-            if (wasPlayerAction)
-            {
-                EmitSignal(nameof(FleetMoved), this, targetPlanet);
-            }
+        if (wasPlayerAction)
+        {
+            EmitSignal(nameof(FleetMoved), this, targetPlanet);
         }
     }
 

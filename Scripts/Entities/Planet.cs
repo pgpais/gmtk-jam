@@ -101,12 +101,13 @@ namespace Entities
             sprite.Modulate = new Color(1, 1, 1, 1);
         }
 
-        public void AddStationedFleet(Fleet fleet)
+        public bool AddStationedFleet(Fleet fleet)
         {
             if (fleetsInPlanet.Count > fleetPositions.Count)
             {
                 //TODO: handle error. show something on screen.
-                GD.PrintErr("Too many fleets in planet");
+                GD.Print("Too many fleets in planet");
+                return false;
             }
             else
             {
@@ -114,6 +115,7 @@ namespace Entities
 
                 ShipsInPlanet += fleet.ShipsInFleet;
                 UpdateFleetPositions();
+                return true;
             }
         }
 

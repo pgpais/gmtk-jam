@@ -11,6 +11,11 @@ namespace GameStates
         private readonly Fleet fleet;
         private readonly Planet stationedPlanet;
 
+        public FleetSelectedState()
+        {
+
+        }
+
         public FleetSelectedState(GameManager gameManager, Fleet fleet) : base(gameManager)
         {
             this.fleet = fleet;
@@ -84,6 +89,7 @@ namespace GameStates
         {
             if (stationedPlanet.ConnectedPlanets.Contains(planet))
             {
+                gameManager.ConsumeMovement();
                 fleet.MoveFleet(planet, true);
                 gameManager.SetState(new ActionSelectionState(gameManager));
             }

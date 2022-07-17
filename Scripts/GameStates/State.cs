@@ -9,6 +9,11 @@ namespace GameStates
 
         protected readonly GameManager gameManager;
 
+        public State()
+        {
+
+        }
+
         public State(GameManager gameManager)
         {
             this.gameManager = gameManager;

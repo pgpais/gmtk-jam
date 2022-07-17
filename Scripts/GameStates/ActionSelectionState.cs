@@ -8,6 +8,11 @@ public class ActionSelectionState : State
 {
     public override string StateName => "ActionSelectionState";
 
+    public ActionSelectionState()
+    {
+
+    }
+
     public ActionSelectionState(GameManager gameManager) : base(gameManager)
     {
     }
@@ -53,7 +58,14 @@ public class ActionSelectionState : State
 
     private void OnFleetSelected(Fleet fleet)
     {
-        gameManager.SetState(new FleetSelectedState(gameManager, fleet));
+        if (gameManager.PlayerCanMove)
+        {
+            gameManager.SetState(new FleetSelectedState(gameManager, fleet));
+        }
+        else
+        {
+            GD.Print("No more movement points");
+        }
     }
 
     private void OnPlanetSelected(Planet planet)

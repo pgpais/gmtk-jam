@@ -7,6 +7,11 @@ public class PlanetSelectedState : State
 {
     private readonly Planet selectedPlanet;
 
+    public PlanetSelectedState()
+    {
+
+    }
+
     public PlanetSelectedState(GameManager gameManager, Planet planet) : base(gameManager)
     {
         selectedPlanet = planet;

@@ -10,15 +10,16 @@ namespace Managers
         public static MapManager Instance;
 
         [Export]
-        public PackedScene PlanetScene { get; private set; }
+        private PackedScene PlanetScene;
         [Export]
-        public NodePath FirstPlanetPositionNodePath { get; private set; }
+        private NodePath FirstPlanetPositionNodePath;
         [Export]
         public int AmountOfLayers { get; private set; }
         [Export]
         public Vector2 PlanetDistance { get; private set; }
 
         public List<List<Planet>> PlanetLayers { get; private set; } = new List<List<Planet>>();
+        public Planet GetLastPlanet => PlanetLayers[PlanetLayers.Count - 1][0];
 
         private Position2D firstPlanetPosition;
         private readonly List<Line2D> planetConnections = new List<Line2D>();
@@ -70,6 +71,21 @@ namespace Managers
                     planet.GlobalPosition = firstPlanetPosition.GlobalPosition + new Vector2((j / (numberOfPlanetsInLayer - 1)) * i * PlanetDistance.x, ((numberOfPlanetsInLayer - 1 - j) / (numberOfPlanetsInLayer - 1)) * i * PlanetDistance.y); //go from 0/2 to 2/2 when numberOfPlanetsInLayer == 3. this is a sort of interpolation between both positions.
                 }
             }
+
+            // Create final planet
+            layer = new List<Planet>();
+            PlanetLayers.Add(layer);
+            planet = PlanetScene.Instance<Planet>();
+            layer.Add(planet);
+            AddChild(planet);
+            planet.GlobalPosition = firstPlanetPosition.GlobalPosition + new Vector2(0.5f * AmountOfLayers * PlanetDistance.x, 0.5f * AmountOfLayers * PlanetDistance.y);
+            planet.SetGoal(18);
+
+            foreach (var previousPlanet in PlanetLayers[PlanetLayers.Count - 2])
+            {
+                planet.AddConnectedPlanet(previousPlanet);
+                previousPlanet.AddConnectedPlanet(planet);
+            }
         }
 
         private void RandomizePlanetInfo(Planet planet)
@@ -77,7 +93,19 @@ namespace Managers
             var random = new Random();
 
             planet.SetGoal(random.Next(1, 12));
-            planet.SetRewards((GameResource)random.Next(0, 3), random.Next(1, 10));
+            GameResource rewardResource = (GameResource)random.Next(0, 3);
+            switch (rewardResource)
+            {
+                case GameResource.Food:
+                    planet.SetRewards(rewardResource, random.Next(1, 20));
+                    break;
+                case GameResource.Fleet:
+                    planet.SetRewards(rewardResource, random.Next(1, 2));
+                    break;
+                case GameResource.Movement:
+                    planet.SetRewards(rewardResource, random.Next(1, 5));
+                    break;
+            }
         }
 
         private void ConnectPlanets()
@@ -131,5 +159,6 @@ namespace Managers
         {
 
         }
+
     }
 }

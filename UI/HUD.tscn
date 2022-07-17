@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://UI/ResourceHint.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Resources/Sprites/kenney_boardgameicons/PNG/Default (64px)/pawn.png" type="Texture" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://UI/HUD.cs" type="Script" id=4]
 [ext_resource path="res://UI/PlanetInfoTab.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Resources/Fonts/Font Files/KenneyFutureNarrow-18.tres" type="DynamicFont" id=6]
+[ext_resource path="res://Resources/Fonts/Font Files/KenneyFutureNarrow-36.tres" type="DynamicFont" id=7]
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource( 4 )
@@ -14,6 +15,8 @@ FoodHintLabelNodePath = NodePath("Container/HBoxContainer/FoodHint/Label")
 FleetHintLabelNodePath = NodePath("Container/HBoxContainer/FleetHint/Label")
 MovementHintLabelNodePath = NodePath("Container/HBoxContainer/MovementsHint/Label")
 PlanetInfoTabNodePath = NodePath("PlanetInfoTab")
+EndGamePopupTextNodePath = NodePath("EndGamePopup/VBoxContainer/MarginContainer/VBoxContainer/Label")
+EndGamePopupNodePath = NodePath("EndGamePopup")
 
 [node name="Container" type="HBoxContainer" parent="."]
 anchor_right = 1.0
@@ -80,7 +83,59 @@ text = "Next Cycle"
 [node name="PlanetInfoTab" parent="." instance=ExtResource( 5 )]
 visible = false
 
+[node name="EndGamePopup" type="PopupPanel" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -132.5
+margin_top = -78.0
+margin_right = 132.5
+margin_bottom = 78.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="EndGamePopup"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 261.0
+margin_bottom = 152.0
+
+[node name="MarginContainer" type="MarginContainer" parent="EndGamePopup/VBoxContainer"]
+margin_right = 251.0
+margin_bottom = 111.0
+custom_constants/margin_right = 50
+custom_constants/margin_top = 50
+custom_constants/margin_left = 50
+custom_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="EndGamePopup/VBoxContainer/MarginContainer"]
+margin_left = 50.0
+margin_top = 50.0
+margin_right = 201.0
+margin_bottom = 91.0
+
+[node name="Label" type="Label" parent="EndGamePopup/VBoxContainer/MarginContainer/VBoxContainer"]
+margin_right = 151.0
+margin_bottom = 41.0
+custom_fonts/font = ExtResource( 7 )
+text = "YOU WIN"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="EndGamePopup/VBoxContainer"]
+margin_top = 115.0
+margin_right = 251.0
+margin_bottom = 142.0
+alignment = 2
+
+[node name="Button" type="Button" parent="EndGamePopup/VBoxContainer/HBoxContainer"]
+margin_left = 196.0
+margin_right = 251.0
+margin_bottom = 27.0
+custom_fonts/font = ExtResource( 6 )
+text = "QUIT"
+
 [connection signal="pressed" from="Container/HBoxContainer2/MarginContainer/NextCycleButton" to="." method="OnNextCycleButtonPressed"]
+[connection signal="pressed" from="EndGamePopup/VBoxContainer/HBoxContainer/Button" to="." method="OnQuitButtonPressed"]
 
 [editable path="Container/HBoxContainer/FoodHint"]
 [editable path="Container/HBoxContainer/FleetHint"]

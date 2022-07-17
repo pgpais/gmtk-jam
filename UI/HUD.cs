@@ -20,12 +20,18 @@ public class HUD : CanvasLayer
     private readonly NodePath MovementHintLabelNodePath;
     [Export]
     private readonly NodePath PlanetInfoTabNodePath;
+    [Export]
+    private readonly NodePath EndGamePopupTextNodePath;
+    [Export]
+    private readonly NodePath EndGamePopupNodePath;
 
     private Button nextCycleButton;
     private Label foodHintLabel;
     private Label fleetHintLabel;
     private Label movementHintLabel;
     private PlanetInfoTab planetInfoTab;
+    private Label endGameText;
+    private Popup endGamePopup;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -44,6 +50,8 @@ public class HUD : CanvasLayer
         fleetHintLabel = GetNode<Label>(FleetHintLabelNodePath);
         movementHintLabel = GetNode<Label>(MovementHintLabelNodePath);
         planetInfoTab = GetNode<PlanetInfoTab>(PlanetInfoTabNodePath);
+        endGameText = GetNode<Label>(EndGamePopupTextNodePath);
+        endGamePopup = GetNode<Popup>(EndGamePopupNodePath);
 
         ConnectSignals();
     }
@@ -65,9 +73,9 @@ public class HUD : CanvasLayer
 
     public void ConnectPlayerSignals(Player player)
     {
-        player.Connect("FoodChanged", this, nameof(OnFoodChanged));
-        player.Connect("FleetChanged", this, nameof(OnFleetChanged));
-        player.Connect("MovementChanged", this, nameof(OnMovementChanged));
+        player.Connect(nameof(Player.FoodChanged), this, nameof(OnFoodChanged));
+        player.Connect(nameof(Player.FleetChanged), this, nameof(OnFleetChanged));
+        player.Connect(nameof(Player.MovementChanged), this, nameof(OnMovementChanged));
 
         foodHintLabel.Text = "x" + player.FoodAmount;
         fleetHintLabel.Text = "x" + player.FleetAmount;
@@ -76,17 +84,17 @@ public class HUD : CanvasLayer
 
     private void OnMovementChanged(int amount)
     {
-        movementHintLabel.Text = amount.ToString();
+        movementHintLabel.Text = "x" + amount.ToString();
     }
 
     private void OnFleetChanged(int amount)
     {
-        fleetHintLabel.Text = amount.ToString();
+        fleetHintLabel.Text = "x" + amount.ToString();
     }
 
     private void OnFoodChanged(int amount)
     {
-        foodHintLabel.Text = amount.ToString();
+        foodHintLabel.Text = "x" + amount.ToString();
     }
 
     public void ShowPlanetBonus(GameResource resource, int amount)
@@ -108,5 +116,29 @@ public class HUD : CanvasLayer
     public void UnGreyOutInteractables()
     {
         nextCycleButton.Disabled = false;
+    }
+
+    public void ShowGameEndScreen(bool gameWon, string message)
+    {
+        string text = "";
+        if (gameWon)
+        {
+            //show win screen
+            text = "You won!";
+        }
+        else
+        {
+            //show lose screen
+            text = "You lost!\n" + message;
+        }
+
+        //show game end screen
+        endGameText.Text = text;
+        endGamePopup.Popup_();
+    }
+
+    public void OnQuitButtonPressed()
+    {
+        GetTree().Quit();
     }
 }

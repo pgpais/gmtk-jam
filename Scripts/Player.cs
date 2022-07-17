@@ -1,4 +1,5 @@
 using System;
+using Entities;
 using Godot;
 
 public class Player : Node
@@ -18,7 +19,7 @@ public class Player : Node
     {
         FoodAmount = 10;
         FleetAmount = 3;
-        MovementAmount = 1;
+        MovementAmount = 6;
     }
 
     public void AddFood(int amount)
@@ -55,5 +56,22 @@ public class Player : Node
             default:
                 throw new ArgumentOutOfRangeException(nameof(resourceReward), resourceReward, null);
         }
+    }
+
+    internal void ConsumeFood(int numberOfShipsInFleets)
+    {
+        FoodAmount -= numberOfShipsInFleets;
+        EmitSignal(nameof(FoodChanged), FoodAmount);
+        if (FoodAmount < 0)
+        {
+            GD.Print("GAME OVER: You ran out of food!");
+            HUD.Instance.ShowGameEndScreen(false, "You ran out of food!");
+        }
+    }
+
+    internal void ConsumeMovement()
+    {
+        MovementAmount--;
+        EmitSignal(nameof(MovementChanged), MovementAmount);
     }
 }

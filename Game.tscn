@@ -10,16 +10,16 @@
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 5 )
+FleetScene = ExtResource( 2 )
 PlayerNodePath = NodePath("Player")
 HUDNodePath = NodePath("HUD")
-FleetScene = ExtResource( 2 )
 
 [node name="Map" type="Node2D" parent="."]
 script = ExtResource( 6 )
-PlanetScene = ExtResource( 1 )
-FirstPlanetPositionNodePath = NodePath("First Planet")
 AmountOfLayers = 5
 PlanetDistance = Vector2( 300, 200 )
+PlanetScene = ExtResource( 1 )
+FirstPlanetPositionNodePath = NodePath("First Planet")
 
 [node name="First Planet" type="Position2D" parent="Map"]
 position = Vector2( 200, 200 )
