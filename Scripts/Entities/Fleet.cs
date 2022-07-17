@@ -22,6 +22,8 @@ public class Fleet : Area2D
 
     private Planet startingPlanet;
 
+    private bool selectable = true;
+
     public Fleet()
     {
 
@@ -52,10 +54,24 @@ public class Fleet : Area2D
         Fleets.Remove(this);
     }
 
+    public void SetUnselectable()
+    {
+        selectable = false;
+        //grey out object
+        Modulate = new Color(0.5f, 0.5f, 0.5f, 1);
+    }
+
+    public void SetSelectable()
+    {
+        selectable = true;
+        //reset color
+        Modulate = new Color(1, 1, 1, 1);
+    }
+
     public override void _InputEvent(Object viewport, InputEvent @event, int shapeIdx)
     {
         base._InputEvent(viewport, @event, shapeIdx);
-        if (@event is InputEventMouseButton button && button.Pressed)
+        if (@event is InputEventMouseButton button && button.Pressed && selectable)
         {
             EmitSignal(nameof(FleetClicked), this);
             GD.Print("Fleet clicked");

@@ -10,6 +10,7 @@ extents = Vector2( 24, 24 )
 [node name="Planet" type="Area2D"]
 script = ExtResource( 2 )
 PlanetGoal = 6
+spriteNodePath = NodePath("MeteorDetailedLarge")
 FleetPositionPaths = [ NodePath("Ship Position 1"), NodePath("Ship Position 2"), NodePath("Ship Position 3") ]
 PlanetGoalLabelPath = NodePath("PlanetGoal")
 

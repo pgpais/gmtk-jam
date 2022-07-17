@@ -6,6 +6,8 @@ namespace Managers
 {
     public class MapManager : Node
     {
+        public static MapManager Instance;
+
         [Export]
         public PackedScene PlanetScene { get; private set; }
         [Export]
@@ -18,10 +20,20 @@ namespace Managers
         public List<List<Planet>> PlanetLayers { get; private set; } = new List<List<Planet>>();
 
         private Position2D firstPlanetPosition;
+        private List<Line2D> planetConnections = new List<Line2D>();
 
         public override void _Ready()
         {
             base._Ready();
+
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else
+            {
+                throw new System.Exception("MapManager is a singleton class and can only be instantiated once.");
+            }
 
             firstPlanetPosition = GetNode<Position2D>(FirstPlanetPositionNodePath);
             CreateMap();
@@ -71,9 +83,7 @@ namespace Managers
                         {
                             planet.AddConnectedPlanet(neighbour);
                             neighbour.AddConnectedPlanet(planet);
-                            Line2D line = new Line2D();
-                            AddChild(line);
-                            line.Points = new Vector2[] { planet.GlobalPosition, neighbour.GlobalPosition };
+
                         }
                         else
                         {
@@ -82,6 +92,27 @@ namespace Managers
                     }
                 }
             }
+        }
+
+        public void ShowPlanetConnections(Planet planet, List<Planet> connectedPlanets)
+        {
+            foreach (var connectedPlanet in connectedPlanets)
+            {
+                Line2D line = new Line2D();
+                AddChild(line);
+                line.Points = new Vector2[] { planet.GlobalPosition, connectedPlanet.GlobalPosition };
+                planetConnections.Add(line);
+            }
+        }
+
+        public void HidePlanetConnections()
+        {
+            foreach (var line in planetConnections)
+            {
+                line.QueueFree();
+                RemoveChild(line);
+            }
+            planetConnections.Clear();
         }
 
         private void SetupSignals()

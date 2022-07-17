@@ -14,7 +14,8 @@ namespace Entities
 
         [Export]
         public int PlanetGoal { get; private set; }
-
+        [Export]
+        public NodePath spriteNodePath { get; private set; }
         [Export]
         public List<NodePath> FleetPositionPaths { get; private set; }
         [Export]
@@ -25,9 +26,12 @@ namespace Entities
         public List<Planet> ConnectedPlanets { get; private set; } = new List<Planet>();
         public int ShipsInPlanet { get; private set; } = 0;
 
+        private Sprite sprite;
         readonly List<Position2D> fleetPositions = new List<Position2D>();
         readonly List<Fleet> fleetsInPlanet = new List<Fleet>();
         private Label planetGoalLabel;
+
+        private bool selectable = true;
 
         public override void _EnterTree()
         {
@@ -49,6 +53,7 @@ namespace Entities
         public override void _Ready()
         {
             planetGoalLabel.Text = PlanetGoal.ToString();
+            sprite = GetNode<Sprite>(spriteNodePath);
         }
 
         override public void _ExitTree()
@@ -60,11 +65,25 @@ namespace Entities
         public override void _InputEvent(Object viewport, InputEvent @event, int shapeIdx)
         {
             base._InputEvent(viewport, @event, shapeIdx);
-            if (@event is InputEventMouseButton button && button.Pressed)
+            if (@event is InputEventMouseButton button && button.Pressed && selectable)
             {
                 EmitSignal(nameof(PlanetClicked), this);
                 GD.Print("Planet clicked");
             }
+        }
+
+        public void SetUnselectable()
+        {
+            selectable = false;
+            //grey out object
+            sprite.Modulate = new Color(0.5f, 0.5f, 0.5f, 1);
+        }
+
+        public void SetSelectable()
+        {
+            selectable = true;
+            //reset color
+            sprite.Modulate = new Color(1, 1, 1, 1);
         }
 
         public void AddStationedFleet(Fleet fleet)

@@ -38,6 +38,6 @@ public class ActionSelectionState : State
 
     public void OnFleetSelected(Fleet fleet)
     {
-        gameManager.SetState(new FleetSelectionState(gameManager, fleet));
+        gameManager.SetState(new FleetSelectedState(gameManager, fleet));
     }
 }
