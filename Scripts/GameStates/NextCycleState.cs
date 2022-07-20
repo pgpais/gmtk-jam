@@ -23,6 +23,8 @@ public class NextCycleState : State
             HUD.Instance.ShowGameEndScreen(true, "You reached the final planet!");
         }
 
+        ConsumeFood();
+
         Planet.Planets.ForEach(planet =>
         {
             if (planet.PlanetGoalMet)
@@ -30,6 +32,7 @@ public class NextCycleState : State
                 gameManager.ActivatePlanet(planet);
             }
         });
+
 
         bool isGameOver = !gameManager.PlayerCanMove;
         if (isGameOver)
@@ -42,7 +45,6 @@ public class NextCycleState : State
         {
             gameManager.SetState(new ActionSelectionState(gameManager));
         }
-        ConsumeFood();
 
         Fleet.Fleets.ForEach(fleet =>
         {
