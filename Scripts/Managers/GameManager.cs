@@ -15,6 +15,7 @@ namespace Managers
         private readonly NodePath HUDNodePath;
 
         public bool PlayerCanMove => player.MovementAmount > 0;
+        public bool PlayerHasFood => player.FoodAmount >= 0;
 
         private Player player;
         private HUD hud;
