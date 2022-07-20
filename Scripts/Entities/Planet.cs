@@ -32,6 +32,7 @@ namespace Entities
         private Sprite sprite;
         readonly List<Position2D> fleetPositions = new List<Position2D>();
         readonly List<Fleet> fleetsInPlanet = new List<Fleet>();
+        readonly Dictionary<Position2D, Fleet> fleetsInPositions = new Dictionary<Position2D, Fleet>();
         private Label planetGoalLabel;
 
         private bool selectable = true;
@@ -55,6 +56,11 @@ namespace Entities
         // Called when the node enters the scene tree for the first time.
         public override void _Ready()
         {
+            foreach (var position in fleetPositions)
+            {
+                fleetsInPositions.Add(position, null);
+            }
+
             planetGoalLabel.Text = PlanetGoal.ToString();
             sprite = GetNode<Sprite>(SpriteNodePath);
         }
@@ -114,7 +120,7 @@ namespace Entities
                 fleetsInPlanet.Add(fleet);
 
                 ShipsInPlanet += fleet.ShipsInFleet;
-                UpdateFleetPositions();
+                AddFleetToPosition(fleet);
                 return true;
             }
         }
@@ -129,9 +135,9 @@ namespace Entities
             if (fleetsInPlanet.Contains(fleet))
             {
                 fleetsInPlanet.Remove(fleet);
+                RemoveFleetFromPosition(fleet);
 
                 ShipsInPlanet -= fleet.ShipsInFleet;
-                UpdateFleetPositions();
             }
             else
             {
@@ -139,23 +145,27 @@ namespace Entities
             }
         }
 
-        private void UpdateFleetPositions()
+        // add fleet to position instead of updating them all
+        private void AddFleetToPosition(Fleet fleet)
         {
-            fleetsInPlanet.Sort((a, b) => a.ShipsInFleet.CompareTo(b.ShipsInFleet));
-
-            for (var i = 0; i < fleetsInPlanet.Count; i++)
+            foreach (var position in fleetPositions)
             {
-                var fleet = fleetsInPlanet[i];
-                var position = fleetPositions[i];
-                if (fleet.StationedPlanet == this)
+                if (fleetsInPositions[position] == null)
                 {
-                    fleet.GetParent()?.RemoveChild(fleet);
-                    position.AddChild(fleet);
-                    fleet.Position = Vector2.Zero;
+                    fleetsInPositions[position] = fleet;
+                    fleet.MoveFleetToPosition(position.GlobalPosition);
+                    break;
                 }
-                else
+            }
+        }
+
+        private void RemoveFleetFromPosition(Fleet fleet)
+        {
+            foreach (var position in fleetPositions)
+            {
+                if (fleetsInPositions[position] == fleet)
                 {
-                    position.RemoveChild(fleet);
+                    fleetsInPositions[position] = null;
                 }
             }
         }

@@ -15,6 +15,7 @@ extents = Vector2( 27, 26.5 )
 
 [node name="Fleet" type="Area2D"]
 script = ExtResource( 4 )
+TweenNodePath = NodePath("Tween")
 DieSpritesPath = [ NodePath("Status/DieWhite1"), NodePath("Status/DieWhite2"), NodePath("Status/DieWhite3"), NodePath("Status/DieWhite4"), NodePath("Status/DieWhite5"), NodePath("Status/DieWhite6") ]
 
 [node name="ShipI" type="Sprite" parent="."]
@@ -62,3 +63,5 @@ texture = ExtResource( 5 )
 visible = false
 position = Vector2( -1, -0.5 )
 shape = SubResource( 1 )
+
+[node name="Tween" type="Tween" parent="."]
