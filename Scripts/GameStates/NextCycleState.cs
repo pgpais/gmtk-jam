@@ -23,6 +23,8 @@ public class NextCycleState : State
             HUD.Instance.ShowGameEndScreen(true, "You reached the final planet!");
         }
 
+        ConsumeFood();
+
         Planet.Planets.ForEach(planet =>
         {
             if (planet.PlanetGoalMet)
@@ -31,18 +33,21 @@ public class NextCycleState : State
             }
         });
 
-        bool isGameOver = !gameManager.PlayerCanMove;
-        if (isGameOver)
+        if (!gameManager.PlayerCanMove)
         {
             // gameManager.SetState(new GameOverState(gameManager));
             GD.Print("GAME OVER: Player can't move");
             HUD.Instance.ShowGameEndScreen(false, "You ran out of movement!");
         }
+        else if (!gameManager.PlayerHasFood)
+        {
+            GD.Print("GAME OVER: You ran out of food!");
+            HUD.Instance.ShowGameEndScreen(false, "You ran out of food!");
+        }
         else
         {
             gameManager.SetState(new ActionSelectionState(gameManager));
         }
-        ConsumeFood();
 
         Fleet.Fleets.ForEach(fleet =>
         {

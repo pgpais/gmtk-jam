@@ -86,6 +86,9 @@ namespace Managers
                 planet.AddConnectedPlanet(previousPlanet);
                 previousPlanet.AddConnectedPlanet(planet);
             }
+
+            //modulate planet to green color
+            planet.Modulate = new Color(0, 1, 0);
         }
 
         private void RandomizePlanetInfo(Planet planet)

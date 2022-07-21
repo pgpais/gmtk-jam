@@ -62,11 +62,6 @@ public class Player : Node
     {
         FoodAmount -= numberOfShipsInFleets;
         EmitSignal(nameof(FoodChanged), FoodAmount);
-        if (FoodAmount < 0)
-        {
-            GD.Print("GAME OVER: You ran out of food!");
-            HUD.Instance.ShowGameEndScreen(false, "You ran out of food!");
-        }
     }
 
     internal void ConsumeMovement()

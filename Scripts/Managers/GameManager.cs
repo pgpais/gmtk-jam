@@ -7,6 +7,8 @@ namespace Managers
 {
     public class GameManager : Node2D
     {
+        public static GameManager Instance;
+
         [Export]
         private readonly PackedScene FleetScene;
         [Export]
@@ -15,6 +17,7 @@ namespace Managers
         private readonly NodePath HUDNodePath;
 
         public bool PlayerCanMove => player.MovementAmount > 0;
+        public bool PlayerHasFood => player.FoodAmount >= 0;
 
         private Player player;
         private HUD hud;
@@ -24,6 +27,15 @@ namespace Managers
 
         public override void _Ready()
         {
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else
+            {
+                throw new System.Exception("GameManager is a singleton class and can only be instantiated once.");
+            }
+
             player = GetNode<Player>(PlayerNodePath);
             hud = GetNode<HUD>(HUDNodePath);
 
@@ -32,8 +44,8 @@ namespace Managers
             for (int i = 0; i < 3; i++)
             {
                 Fleet fleet = FleetScene.Instance<Fleet>();
+                AddChild(fleet);
                 fleet.MoveFleet(Planet.Planets[0], false);
-                fleet.RollShipsInFleet();
             }
             SetState(new ActionSelectionState(this));
         }
@@ -61,8 +73,8 @@ namespace Managers
             if (planet.ResourceReward == GameResource.Fleet)
             {
                 Fleet fleet = FleetScene.Instance<Fleet>();
+                AddChild(fleet);
                 fleet.MoveFleet(planet, false);
-                fleet.RollShipsInFleet();
             }
             player.GetRewards(planet.ResourceReward, planet.RewardAmount);
         }

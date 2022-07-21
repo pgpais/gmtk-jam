@@ -7,6 +7,7 @@ public class Fleet : Area2D
 {
     public static List<Fleet> Fleets = new List<Fleet>();
     public static int NumberOfShipsInFleets => Fleets.Sum(fleet => fleet.ShipsInFleet);
+
     [Signal]
     public delegate void FleetClicked(Fleet fleet);
     [Signal]
@@ -16,12 +17,15 @@ public class Fleet : Area2D
     public int ShipsInFleet { get; private set; } = 1;
 
     [Export]
+    private readonly NodePath TweenNodePath;
+    [Export]
     private readonly List<NodePath> DieSpritesPath;
 
     public Planet StationedPlanet { get; private set; }
 
     readonly List<Sprite> dieSprites = new List<Sprite>();
 
+    private Tween tween;
     private Planet startingPlanet;
 
     private bool selectable = true;
@@ -46,7 +50,9 @@ public class Fleet : Area2D
 
             dieSprite.Visible = false;
         }
+        tween = GetNode<Tween>(TweenNodePath);
 
+        RollShipsInFleet();
         dieSprites[ShipsInFleet - 1].Visible = true;
     }
 
@@ -78,6 +84,12 @@ public class Fleet : Area2D
             EmitSignal(nameof(FleetClicked), this);
             GD.Print("Fleet clicked");
         }
+    }
+
+    public void MoveFleetToPosition(Vector2 position)
+    {
+        tween.InterpolateProperty(this, "global_position", this.GlobalPosition, position, 0.5f, Tween.TransitionType.Linear, Tween.EaseType.InOut);
+        tween.Start();
     }
 
     public void MoveFleet(Planet targetPlanet, bool wasPlayerAction)
