@@ -32,6 +32,19 @@ jobs:
           # your game is within a sub-directory
           relative_project_path: ./
           archive_output: true
+      - name: Read Version Number
+        id: version_number
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./VERSION
+      - name: Test Release Variables
+        run: |
+          echo "Version Number $VERSION_NUMBER"
+          echo "Commit Message $COMMIT_MESSAGE"
+          echo "Project Name $PROJECT_NAME"
+        env:
+          VERSION_NUMBER: ${{ steps.version_number.outputs.content }}
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
       - name: create release
         uses: softprops/action-gh-release@v0.1.14
         with:
