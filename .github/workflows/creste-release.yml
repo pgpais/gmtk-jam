@@ -21,6 +21,7 @@ jobs:
       - name: Check out LFS objects
         run: git lfs checkout
       - name: Export game
+        id: export
         # Use latest version (see releases for all versions)
         uses: firebelley/godot-export@v4.1.0
         with:
