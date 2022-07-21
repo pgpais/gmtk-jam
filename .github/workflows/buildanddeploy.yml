@@ -17,6 +17,8 @@ jobs:
   BuildAndPublish:
     runs-on: ubuntu-latest
     steps:
+      - name: Check out LFS objects
+        run: git lfs checkout
       - name: Checkout Source Code
         uses: actions/checkout@v2
         with:
