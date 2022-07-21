@@ -17,6 +17,9 @@ jobs:
         # Ensure that you get the entire project history
         with:
           fetch-depth: 0
+          lfs: true
+      - name: Check out LFS objects
+        run: git lfs checkout
       - name: Export game
         # Use latest version (see releases for all versions)
         uses: firebelley/godot-export@v4.1.0
