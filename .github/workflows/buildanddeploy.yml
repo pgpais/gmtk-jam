@@ -56,7 +56,7 @@ jobs:
           ./godot --path ./project.godot --export "Linux" ./exports/linux/$PROJECT_NAME.x86_64
       - name: Web Build
         run: |
-          mkdir -v -p build/web
+          mkdir -v -p ./exports/web
           ./godot --path ./project.godot --export "HTML5" ./exports/web/index.html
       - name: Add Version Number to Exports
         run: |
