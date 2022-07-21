@@ -51,3 +51,4 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           generate_release_notes: true
           files: ${{ steps.export.outputs.archive_directory }}/*
+          tag_name: ${{ steps.version_number.outputs.content }}
