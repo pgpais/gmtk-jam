@@ -17,13 +17,13 @@ jobs:
   BuildAndPublish:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out LFS objects
-        run: git lfs checkout
       - name: Checkout Source Code
         uses: actions/checkout@v2
         with:
           lfs: true
           fetch-depth: 0
+      - name: Check out LFS objects
+        run: git lfs checkout
       - name: Download + Authorize Godot
         run: |
           curl -L -o godot.zip https://downloads.tuxfamily.org/godotengine/3.4.4/Godot_v3.4.4-stable_linux_headless.64.zip
